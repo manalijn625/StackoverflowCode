@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Stackoverflow</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-left">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Stackoverflow", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
+                    <li>@Html.ActionLink("MyProfile", "getSessionValue", "MyProfile")</li>
+                    <li>@Html.ActionLink("Tags", "List", "Tags")</li>
+                    <li>@Html.ActionLink("Users", "List", "Users")</li>
+                    <li>@Html.ActionLink("MyEntries", "QuestionListByUSer", "QuestionInfo")</li>
+                    <li>@Html.ActionLink("AskQuestion", "AskQuestion", "QuestionInfo")</li>
+                    <li>@Html.ActionLink("Questions", "QuestionList", "QuestionInfo", new { TagId = 0 }, new { @class = "" })</li>
+                    <li>@Html.TextBox("search")
+                    @*<input type="submit" name="submit" value="Search" />*@
+                    <input type="button" value="Search" onclick="location.href='@Url.Action("QuestionList", "QuestionInfo")?searchvalue=' + document.getElementById('search').value" />
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+   <div><a style="float:right" href="/SignIn/SignOut">Sign Out</a></div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Stackoverflow</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

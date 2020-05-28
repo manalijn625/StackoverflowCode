@@ -1,0 +1,98 @@
+﻿@model StackOverFlow.Models.TopInfo
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+@*<div >
+        <h1>Stackoverflow</h1>
+        <p class="lead">Stackoverflow: Solution to your probklems</p>
+        @*<p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    </div>*@
+
+    <div class="jumbotron">
+        <h3 class="glyphicon-sound-5-1">Top Questions </h3>
+
+        @foreach (var item in Model.Questions)
+        {
+
+
+            <table class="tablecontainer">
+                <tr style="font-size:small;">
+                    <td class="navbar-btn" width="10%" style="padding:15px 15px 15px 15px;" rowspan="2">@item.QuestionVotes<br /> @Html.ActionLink("Votes", "QuestionDetail", "QuestionInfo", new { id = item.question.QuestionId }, new { @class = "" })</td>
+                    <td class="navbar-btn" width="10%" style="padding:15px 15px 15px 15px" rowspan="2">@item.question.Answers.Count<br /> @Html.ActionLink("Answers", "QuestionDetail", "QuestionInfo", new { id = item.question.QuestionId }, new { @class = "" })</td>
+                    <td style="padding:15px 15px 15px 15px" rowspan="2" width="10%">@item.question.ViewCount <br /> @Html.ActionLink("Views", "QuestionDetail", "QuestionInfo", new { id = item.question.QuestionId }, new { @class = "" })</td>
+                    <td class="navbar-btn" colspan="2" width="70%"><h4> @Html.ActionLink(item.question.Title, "QuestionDetail", "QuestionInfo", new { id = item.question.QuestionId }, new { @class = "" })</h4> </td>
+
+                    @* <td style="font-weight:bold; font-style:oblique; text-align:left">Asked On : @Html.DisplayFor(modelItem => item.question.CreatedOn)</td>
+                       <td style="font-weight:bold; font-style:oblique; text-align:left">Active : </td>
+                       <td style="font-weight:bold; font-style:oblique; text-align:left">@Html.DisplayFor(modelItem => item.question.IsOpen)</td>
+                       <td style="font-weight:bold; font-style:oblique; text-align:left">Viewed Count : </td>
+                    <td style="font-weight:bold; font-style:oblique; text-align:left">@Html.DisplayFor(modelItem => item.question.ViewCount) </td>*@
+                </tr>
+                <tr style="font-size:medium">
+                    <td>
+                        @if (item.Tags != null && item.Tags.Count > 0)
+                        {
+                            foreach (var item1 in item.Tags)
+                            {
+                                @*<a asp-controller="QuestionInfo" asp-action="QuestionList" asp-route-TagId=item1.TagId style="color:powderblue; background-color:antiquewhite; border-color:transparent;">item1.TagDescription</a>*@
+                                @Html.ActionLink(item1.TagDescription, "QuestionList", "QuestionInfo", new { TagId = item1.TagId }, new { @class = "MyTagClass btn-info" })
+                                <text>&nbsp;</text>
+                            }
+                        }
+                    </td>
+                    <td style="text-align:right; font-size:smaller;" class=" text-right text-primary text-info">
+                        @Html.Partial("PartialImage", new StackOverFlow.Models.ProfileImage { Width = "20px", Height = "20px", UserId = item.QuestionUser.UserId, ImageName = item.QuestionUser.ImageName })  @item.QuestionUser.Name
+                    </td>
+                    @*<td colspan="6" style="font-size:medium; background-color:beige">
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>*@
+                    <td></td>
+                </tr>
+            </table>
+
+
+
+        }
+        <h3 class="glyphicon-sound-5-1">Top Tags </h3>
+        @foreach (var item in Model.Tags)
+        {
+            <table class="tablecontainer">
+                <tr style="font-size:medium">
+                    <td width="20%" align="left" style="padding:15px 15px 15px 15px;">
+
+                        @Html.ActionLink(item.TagDescription, "QuestionList", "QuestionInfo", new { TagId = item.TagId }, new { @class = "MyTagClass btn-info" })
+
+                    </td>
+                    <td class="navbar-btn" align="left" width="30%" style="padding:15px 15px 15px 15px;">
+                        @item.Appearance Questions asked
+                    </td>
+                    <td width="50%" >
+                        <span style="font-size:smaller; font-style:italic;color:cornflowerblue;">Last Question 10 min ago</span>
+                    </td>
+
+                </tr>
+            </table>
+        }
+        <h3>Top Users </h3>
+         @foreach (var item1 in Model.Users)
+        {
+            <table class="tablecontainer">
+                <tr>
+                    <td  width="30px">
+                        @Html.Partial("PartialImage", new StackOverFlow.Models.ProfileImage { Width = "20px", Height = "20px", UserId = item1.UserId, ImageName = item1.ImageName })
+                    </td>
+                    <td width="200px" align="left" >
+                        @Html.ActionLink(item1.Name, "QuestionList", "QuestionInfo", null, new { @class = "" })
+                    </td>
+                    <td width="100px" align="right" >
+                       @item1.UserPoints &nbsp; <span style="font-size:smaller; font-style:italic;color:cornflowerblue;"> Points</span>
+                    </td>
+                </tr>
+            </table>
+
+        }
+
+
+    </div>

@@ -1,0 +1,4 @@
+﻿@model StackOverFlow.Models.ProfileImage
+<a href="@Url.Action("ProfileInfo","ProfileInfo", new { UserId = Model.UserId})" title="List View" class="links">
+    <img src="@Url.Content("~/images/"+ Model.ImageName )" alt="Image" style="width:@Model.Width; height:@Model.Height" />
+</a>

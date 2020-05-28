@@ -1,0 +1,64 @@
+﻿@model IEnumerable<StackOverFlow.Models.QuestionInfo>
+
+@{
+    ViewBag.Title = "QuestionList";
+}
+<h2>QuestionList</h2>
+@using (Html.BeginForm("QuestionDetail", "QuestionInfo", FormMethod.Post, new { quesinfo = Model }))
+{
+    {
+        <div>
+            @*<table>*@
+                @foreach (var item in Model)
+                {
+
+            <h3>@Html.Partial("PartialImage", new StackOverFlow.Models.ProfileImage { Width = "40px", Height = "40px", UserId = item.QuestionUser.UserId, ImageName = item.QuestionUser.ImageName }) @Html.ActionLink(item.question.Title , "QuestionDetail", "QuestionInfo", new { id = item.question.QuestionId }, new { @class = "" })</h3>
+                    <table class="tablecontainer">
+                        <tr style="font-size:small">
+                            <td style="font-weight:bold; font-style:oblique; text-align:left">Asked On : @Html.DisplayFor(modelItem => item.question.CreatedOn)</td>
+
+
+
+                            <td style="font-weight:bold; font-style:oblique; text-align:left">Active : </td>
+                            <td style="font-weight:bold; font-style:oblique; text-align:left">@Html.DisplayFor(modelItem => item.question.IsOpen)</td>
+
+
+                            <td style="font-weight:bold; font-style:oblique; text-align:left">Viewed Count : </td>
+                            <td style="font-weight:bold; font-style:oblique; text-align:left">@Html.DisplayFor(modelItem => item.question.ViewCount) </td>
+                        </tr>
+                        <tr style="font-size:medium">
+                            <td colspan="6" style="font-size:medium; background-color:beige">
+                                @Html.DisplayFor(modelItem => item.question.Description)
+                            </td>
+                        </tr>
+                        <tr style="font-size:medium; border-bottom:10px; border-bottom-color:bisque;" >
+                            <td colspan="6">
+                                Tags :
+                                @if (item.Tags != null && item.Tags.Count > 0)
+                                {
+                                    foreach (var item1 in item.Tags)
+                                    {
+                                        @*<a asp-controller="QuestionInfo" asp-action="QuestionList" asp-route-TagId=item1.TagId style="color:powderblue; background-color:antiquewhite; border-color:transparent;">item1.TagDescription</a>*@
+                                        @Html.ActionLink(item1.TagDescription, "QuestionList", new { TagId = item1.TagId },  new { @class="MyTagClass"})
+                                        <text>&nbsp;</text>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    @*<tr>
+                            <td>
+                                @Html.ActionLink(item.question.Title + " , ", "QuestionInfo", "QuestionList")
+                            </td>
+                        </tr>*@
+
+
+                }
+
+                @*</table>*@
+
+        </div>
+
+    }
+}

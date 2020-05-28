@@ -1,0 +1,180 @@
+﻿@model StackOverFlow.Models.QuestionInfo
+@{
+    ViewBag.Title = "QuestionDetail";
+}
+@using (Html.BeginForm("QuestionDetail", "QuestionInfo", FormMethod.Post, new { quesinfo = Model }))
+{
+    { //code inside here
+    <div>
+        <h2>
+            @Html.Partial("PartialImage", new StackOverFlow.Models.ProfileImage { Width = "50px", Height = "50px", UserId = Model.QuestionUser.UserId, ImageName = Model.QuestionUser.ImageName })
+            @Html.DisplayFor(model => model.question.Title)
+        </h2>
+    </div>
+        <div>
+            <table border="1">
+                <tr>
+                    <td colspan="6" style="font-size: x-large">
+                        @*@Html.DisplayFor(model => model.question.Title)*@
+                    </td>
+                </tr>
+                <tr style="font-size:small">
+                    <td>Asked On : </td>
+                    <td>@Html.DisplayFor(model => model.question.CreatedOn)</td>
+                    <td>Active : </td>
+                    <td>@Html.DisplayFor(model => model.question.IsOpen)</td>
+                    <td>Viewed Count : </td>
+                    <td>@Html.DisplayFor(model => model.question.ViewCount)</td>
+                </tr>
+                <tr style="font-size:medium;">
+                    <td colspan="6" style="background-color:aliceblue">
+                        @Html.DisplayFor(model => model.question.Description)
+                    </td>
+                </tr>
+                <tr style="font-size:medium">
+                    <td colspan="6">
+                        Tags :
+                        @if (Model.Tags != null && Model.Tags.Count > 0)
+                        {
+                            foreach (var item in Model.Tags)
+                            {
+                                @Html.ActionLink(item.TagDescription + " , ", "QuestionList", new { TagId = item.TagId })
+                            }
+                        }
+                    </td>
+                </tr>
+            </table>
+            <div style="font-size:medium;font-weight:bold;">
+                Answers : @Model.Answers.Count
+            </div>
+            <div id="Answers" class="tablecontainer">
+                <table>
+                    @foreach (var item in Model.Answers)
+                    {
+                        <tr>
+                            <td>
+                                <div>
+                                    <table class="table">
+                                        <tr>
+                                            <td rowspan="2" id="" style="font-size:xx-large; vertical-align:middle; width:5%; text-align: center;">
+                                                @*<input type="button" id="add" value="add" onclick="UpdateVote(@item.AnswerId);" />*@
+                                                <a href="#" onclick="UpdateVote(@item.AnswerId, 'up');"><img style="align-content:center;" src="@Url.Content("~/images/plusimg.png")" width="20" /></a><br/>
+                                                <span id="@item.AnswerId" class="TitleEstTimeClass">
+                                                    @Html.DisplayFor(model => item.UpDownVote)
+                                                </span><br />
+                                                <a href="#" onclick="UpdateVote(@item.AnswerId, 'down');"><img style="align-content:center;" src="@Url.Content("~/images/minusimg.png")" width="20" /></a>
+
+
+                                            </td>
+                                            <td colspan="5" style="font-size:medium; background-color:beige; width:95%;"> @Html.DisplayFor(modelItem => item.Text)</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight:bold; font-style:oblique; text-align:left; width:5%;">Answerby : </td>
+                                            <td style="text-align:left ; width:20%;">
+                                                @*@Html.TextBox("disp", (string)@ViewBag., new { @readonly = true })*@
+                                                @Html.DisplayFor(modelItem => item.User.Name)
+                                                @Html.Partial("PartialImage", new StackOverFlow.Models.ProfileImage { Width = "20px", Height = "20px", UserId = item.User.UserId, ImageName = item.User.ImageName })
+                                                
+
+                                            </td>
+
+                                            <td style="font-weight:bold; font-style:oblique; text-align:left ; width:10%;">Answered On : </td>
+                                            <td style="text-align:left;  width:15%;">@Html.DisplayFor(modelItem => item.AnsweredOn) &nbsp;</td>
+                                            <td width="55%"></td>
+
+                                        </tr>
+                                    </table>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+                </table>
+            </div>
+
+            <div class="tablecontainer">
+                <h3>Submit Your Answer</h3>
+
+                <table>
+                    <tr>
+                        <td></td>
+
+                        <td width="80%">@Html.TextAreaFor(model => model.NewAnswer, 10, 5000, null)</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td align="right">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Submit" class="btn btn-default" />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+
+            </div>
+
+
+        </div>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        @section Scripts{
+            <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+            <script>
+
+                function UpdateVote(AnswerId, voteType) {
+                    //alert("in method");
+
+                    //Update if valid
+                    if (true) {
+                        var data = {
+                            AnswerId: AnswerId,
+                            Type: voteType
+                        }
+                        //alert(data);
+
+                        $(this).val('Please wait...');
+
+                        $.ajax({
+                            url: '/QuestionInfo/UpdateVote',
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            dataType: "JSON",
+                            contentType: "application/json",
+                            success: function (d) {
+                                //check is successfully save to database
+                                if (d.status == true) {
+                                    //will send status from server side
+                                    var span = document.getElementById(AnswerId);
+                                    // alert(span.textContent);
+                                    //alert(parseInt(element.val) + 1);
+                                    //clear form
+                                    if (voteType == "up") {
+                                        span.textContent = parseInt(span.textContent) + 1;
+                                        span.style.color = "green";
+                                    }
+                                    else {
+                                        span.textContent = parseInt(span.textContent) - 1;
+                                        span.style.color = "red";
+                                    }
+                                }
+                                else {
+                                    //alert('Failed');
+                                }
+
+                            },
+                            error: function (d) {
+                                // alert(d);
+                                // alert('Error. Please try again.');
+
+                            }
+                        });
+                    }
+                };
+            </script>
+        }
+
+    }
+}

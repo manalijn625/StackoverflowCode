@@ -1,0 +1,36 @@
+﻿@model IEnumerable<StackOverFlow.TagMaster>
+
+@{
+    ViewBag.Title = "Tags";
+}
+
+<h2>Tags</h2>
+
+
+<table class="table">
+    @*<tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TagDescription)
+        </th>
+        <th></th>
+    </tr>*@
+
+@foreach (var item in Model) {
+    <tr> 
+        <td width="20%">
+            @Html.DisplayFor(modelItem => item.TagDescription)
+           
+        </td>
+        <td align="left">
+            @*@Html.DisplayFor(modelItem => item.TagDescription)*@
+            @Html.ActionLink("Browse Related Questions" , "QuestionList","QuestionInfo", new { TagId = item.TagId }, new {@class="" })
+        </td>
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.TagId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TagId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TagId })*@
+        </td>
+    </tr>
+}
+
+</table>

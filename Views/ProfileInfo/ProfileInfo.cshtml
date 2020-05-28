@@ -1,0 +1,85 @@
+﻿@model StackOverFlow.CustomUser
+@{
+    ViewBag.Title = "ProfileInfo";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<h2 class="glyphicon-sound-5-1">Profile </h2>
+@using (Html.BeginForm())
+{
+    <div class="jumbotron">
+
+        <div>
+            <table>
+                <tr>
+                    <td width="15%"> @Html.Partial("PartialImage", new StackOverFlow.Models.ProfileImage { Width = "200px", Height = "200px", UserId = Model.UserId, ImageName = Model.ImageName })</td>
+                    <td width="51%" valign="top">
+                        <h3>@Model.Name</h3>
+                        @if (((User)Session["User"]).Role == "Admin" || ((User)Session["User"]).UserId== Model.UserId)
+                        {
+                            <div>@Html.ActionLink("Edit", "Edit", "MyProfile", new { UserId = Model.UserId}, null)</div>
+                         }
+                       
+                            <br />Quantitative Analyst at Regent Markets Group(Binary.com)
+                                Apparently, this user prefers to keep an air of mystery about them.
+                        
+                    </td>
+                    <td width="8%" valign="top" align="left" style="padding-left:100px;">
+                        <svg aria-hidden="true" class="svg-icon iconLocation" width="18" height="18" viewBox="0 0 18 18"><path d="M2 6.38C2 9.91 8.1 17.7 8.1 17.7c.22.29.58.29.8 0 0 0 6.1-7.8 6.1-11.32A6.44 6.44 0 008.5 0 6.44 6.44 0 002 6.38zm9.25.12a2.75 2.75 0 11-5.5 0 2.75 2.75 0 015.5 0z"></path></svg><br />
+                        <svg aria-hidden="true" class="svg-icon iconTwitter" width="18" height="18" viewBox="0 0 18 18"><path d="M17 4.04c-.59.26-1.22.44-1.88.52a3.3 3.3 0 001.44-1.82c-.64.37-1.34.64-2.09.79a3.28 3.28 0 00-5.6 2.99A9.3 9.3 0 012.12 3.1a3.28 3.28 0 001.02 4.38 3.28 3.28 0 01-1.49-.4v.03a3.29 3.29 0 002.64 3.22 3.34 3.34 0 01-1.48.06 3.29 3.29 0 003.07 2.28 6.58 6.58 0 01-4.85 1.36 9.33 9.33 0 005.04 1.47c6.04 0 9.34-5 9.34-9.33v-.42a6.63 6.63 0 001.63-1.7L17 4.04z" fill="#2AA3EF"></path></svg><br />
+                        <svg aria-hidden="true" class="svg-icon iconHistory" width="19" height="18" viewBox="0 0 19 18"><path d="M3 9a8 8 0 113.73 6.77L8.2 14.3A6 6 0 105 9l3.01-.01-4 4-4-4h3L3 9zm7-4h1.01L11 9.36l3.22 2.1-.6.93L10 10V5z"></path></svg>
+                    </td>
+                    <td width="25%" valign="top" align="left">
+                        Pune, India.<br />
+                        mjain47<br />
+                        Member for 5 years, 9 months
+
+                    </td>
+                </tr>
+                <tr colspan="4">
+                    <td width="15%"></td>
+                    <td cwidth="51%">
+                        <h3 class="d-block pb8 bb bc-black-3 fc-dark fw-bold  bw0">Top Posts <span class="fc-light fw-normal"></span></h3>
+
+                        @foreach (var item1 in @Model.QuestionInfo)
+                        {
+                            <div style="padding:10px;">
+                                <div class="column" align="center" style="background-color:bisque;float:left;width:5%;">@item1.ViewCount</div>
+
+                                <div class="column" style="float:left;width:95%;">
+                                    @Html.ActionLink(item1.Title, "QuestionDetail", "QuestionInfo", new { id = item1.QuestionId }, new { @class = "" })
+                                </div>
+                            </div>
+                        }
+
+                    </td>
+                    <td width="8%"></td>
+                    <td width="25%"></td>
+                </tr>
+                <tr colspan="4">
+                    <td width="15%"></td>
+                    <td cwidth="51%" >
+                        <h3 class="d-block pb8 bb bc-black-3 fc-dark fw-bold  bw0">Top Tags <span class="fc-light fw-normal"></span></h3>
+
+                        @foreach (var tagl in @Model.TagList)
+                        {
+                            <div style="padding:10px;">
+                                <div class="column" align="center" style="background-color:bisque;float:left;width:5%;">@tagl.Appearance</div>
+                              
+                                <div class="column" style="float:left;width:95%;">
+                                    @Html.ActionLink(tagl.TagDescription, "QuestionList", "QuestionInfo", new { TagId = tagl.TagId}, null);
+                                </div>
+                            </div>
+                        }
+
+                    </td>
+                    <td width="8%"></td>
+                    <td width="25%"></td>
+                </tr>
+
+            </table>
+
+
+
+        </div>
+    </div>
+}

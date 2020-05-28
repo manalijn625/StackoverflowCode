@@ -1,0 +1,75 @@
+﻿@model IEnumerable<StackOverFlow.User>
+
+@{
+    ViewBag.Title = "Users";
+}
+
+<h2>Users</h2>
+
+
+<table class="table" style="display:grid;">
+    <tr>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>*@
+       
+        @*<th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConfirmPassword)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MobileNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th></th>*@
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.Partial("PartialImage", new StackOverFlow.Models.ProfileImage { Width = "40px", Height = "40px", UserId = item.UserId, ImageName = item.ImageName })
+
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td align="left">
+        @*@Html.DisplayFor(modelItem => item.TagDescription)*@
+        @Html.ActionLink("Questions By User", "QuestionList", "QuestionInfo", new { TagId = 0, UserId = item.UserId }, new { @class = "" })
+    </td>
+    @if (((User)Session["User"]).Role == "Admin")
+    {
+        <td align="left">
+            @*@Html.DisplayFor(modelItem => item.TagDescription)*@
+            @Html.ActionLink("Edit", "Edit", "MyProfile", new { TagId = 0, UserId = item.UserId }, new { @class = "" })
+        </td>
+    }
+    @*<td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConfirmPassword)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MobileNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gender)
+        </td>*@
+    @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.UserId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.UserId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.UserId })
+        </td>*@
+</tr>
+}
+
+</table>
