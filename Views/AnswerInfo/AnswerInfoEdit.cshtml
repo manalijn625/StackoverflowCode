@@ -1,0 +1,104 @@
+﻿@model StackOverFlow.Answer
+@{
+    ViewBag.Title = "AnswerInfoEdit";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+@using (Html.BeginForm("AnswerInfoEdit","AnswerInfo"))
+{
+    { //code inside here
+    <div>
+        <h2>Edit Your Answer</h2><hr />
+        @Html.HiddenFor(model => model.AnswerId)
+        @Html.HiddenFor(model => model.QuestionId)
+    </div>
+        <div>
+            <table class="table-striped table-bordered table-condensed">
+                <tr>
+                    <td colspan="6" style="font-size: x-large">
+                        @Html.DisplayFor(model => model.Question.Title, new { @class = "control-label col-md-2" })
+                    </td>
+                </tr>
+                <tr style="font-size:small">
+                    <td>Asked On : </td>
+                    <td>@Html.DisplayFor(model => model.Question.CreatedOn)</td>
+                    <td>Active : </td>
+                    <td>@Html.DisplayFor(model => model.Question.IsOpen)</td>
+
+                </tr>
+                <tr style="font-size:medium;">
+                    <td colspan="6">
+                        @Html.DisplayFor(model => model.Question.Description)
+                    </td>
+                </tr>
+               
+
+            </table>
+            <table width="100%">
+                <tr >
+                    <td colspan="6">
+                        @Html.LabelFor(model => model.Text, "Answer", htmlAttributes: new { @class = "control-label col-md-2" })
+                    </td>
+                </tr>
+                <tr width="800px">
+                    <td colspan="6" width="800px">
+                        @Html.TextAreaFor(model => model.Text, 12, 800 ,new { @class = "md-textarea form-control rounded-0"})
+
+                        @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        
+                            <input type="submit" value="Submit" class="btn-primary" />
+                       
+                    </td>
+                </tr>
+            </table>
+
+            @*<div id="Answers" class="tablecontainer">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Text, "Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Text, 12, 800, new { htmlAttributes = new { @class = "" } })
+
+                        @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Submit" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>*@
+
+            @*<div class="tablecontainer">
+                <h3>Submit Your Answer</h3>
+
+                <table>
+                    <tr>
+                        <td></td>
+
+                        <td width="80%">@Html.TextAreaFor(model => model.Text, 10, 5000, null)</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td align="right">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Submit" class="btn btn-default" />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+
+            </div>*@
+
+
+        </div>
+
+
+
+    
+
+}
+}
+

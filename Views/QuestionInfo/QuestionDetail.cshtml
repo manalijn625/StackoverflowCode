@@ -5,130 +5,220 @@
 @using (Html.BeginForm("QuestionDetail", "QuestionInfo", FormMethod.Post, new { quesinfo = Model }))
 {
     { //code inside here
-    <div>
-        <h2>
-            @Html.Partial("PartialImage", new StackOverFlow.Models.ProfileImage { Width = "50px", Height = "50px", UserId = Model.QuestionUser.UserId, ImageName = Model.QuestionUser.ImageName })
-            @Html.DisplayFor(model => model.question.Title)
-        </h2>
-    </div>
-        <div>
-            <table border="1">
-                <tr>
-                    <td colspan="6" style="font-size: x-large">
-                        @*@Html.DisplayFor(model => model.question.Title)*@
-                    </td>
-                </tr>
-                <tr style="font-size:small">
-                    <td>Asked On : </td>
-                    <td>@Html.DisplayFor(model => model.question.CreatedOn)</td>
-                    <td>Active : </td>
-                    <td>@Html.DisplayFor(model => model.question.IsOpen)</td>
-                    <td>Viewed Count : </td>
-                    <td>@Html.DisplayFor(model => model.question.ViewCount)</td>
-                </tr>
-                <tr style="font-size:medium;">
-                    <td colspan="6" style="background-color:aliceblue">
-                        @Html.DisplayFor(model => model.question.Description)
-                    </td>
-                </tr>
-                <tr style="font-size:medium">
-                    <td colspan="6">
-                        Tags :
-                        @if (Model.Tags != null && Model.Tags.Count > 0)
-                        {
-                            foreach (var item in Model.Tags)
+        <input type="hidden" id="hdnSession" data-value="(@((User)Session["User"]).)" />
+        <table width="90%">
+            <tr>
+                <td>
+                    <div>
+                        <h2>
+                            @Html.Partial("PartialImage", new StackOverFlow.Models.ProfileImage { Width = "50px", Height = "50px", UserId = Model.QuestionUser.UserId, ImageName = Model.QuestionUser.ImageName })
+                            @Html.DisplayFor(model => model.question.Title)
+                            @if (((User)Session["User"]) != null && (((User)Session["User"]).Role == "Admin" || ((User)Session["User"]).UserId == Model.QuestionUser.UserId))
                             {
-                                @Html.ActionLink(item.TagDescription + " , ", "QuestionList", new { TagId = item.TagId })
+                                <a href="@Url.Action("QuestionInfoEdit", "QuestionInfo", new { Id = Model.QuestionId })" title="Edit Question" class="links">
+                                    <img src="@Url.Content("~/images/edit.png")" alt="Image" style="width:20px; height:20px;" />
+                                </a>
                             }
-                        }
-                    </td>
-                </tr>
-            </table>
-            <div style="font-size:medium;font-weight:bold;">
-                Answers : @Model.Answers.Count
-            </div>
-            <div id="Answers" class="tablecontainer">
-                <table>
-                    @foreach (var item in Model.Answers)
-                    {
-                        <tr>
-                            <td>
-                                <div>
-                                    <table class="table">
-                                        <tr>
-                                            <td rowspan="2" id="" style="font-size:xx-large; vertical-align:middle; width:5%; text-align: center;">
-                                                @*<input type="button" id="add" value="add" onclick="UpdateVote(@item.AnswerId);" />*@
-                                                <a href="#" onclick="UpdateVote(@item.AnswerId, 'up');"><img style="align-content:center;" src="@Url.Content("~/images/plusimg.png")" width="20" /></a><br/>
-                                                <span id="@item.AnswerId" class="TitleEstTimeClass">
-                                                    @Html.DisplayFor(model => item.UpDownVote)
-                                                </span><br />
-                                                <a href="#" onclick="UpdateVote(@item.AnswerId, 'down');"><img style="align-content:center;" src="@Url.Content("~/images/minusimg.png")" width="20" /></a>
+                            @*&nbsp;&nbsp;@Html.ActionLink("Edit", "Edit", "MyProfile", new { UserId = Model.UserId }, null)*@
+                        </h2>
+                    </div>
+                    <div>
+                        <table style="border:1px solid;" >
+                            <tr>
+                                <td colspan="6" style="font-size: x-large">
+                                    @*@Html.DisplayFor(model => model.question.Title)*@
+                                </td>
+                            </tr>
+                            <tr style="font-size:small;">
+                                <td style="padding:5px 5px 5px 5px;">Asked On : @Html.DisplayFor(model => model.question.CreatedOn)</td>
+                                
+                                <td style="padding:5px 5px 5px 5px;">Active : @Html.DisplayFor(model => model.question.IsOpen)</td>
+                                
+                                <td style="padding:5px 5px 5px 5px;">Viewed Count : @Html.DisplayFor(model => model.question.ViewCount)</td>
+                                
+                            </tr>
+                            <tr style="font-size:medium;">
+                                <td colspan="6" style="background-color:azure;padding-left:20px;padding-right:20px;padding-bottom:10px;padding-top:10px;">
+                                    @Html.DisplayFor(model => model.question.Description)
+                                </td>
+                            </tr>
+                            <tr style="font-size:medium">
+                                <td colspan="6" style="padding:5px 5px 5px 5px;">
+                                    Tags :
+                                    @if (Model.Tags != null && Model.Tags.Count > 0)
+                                    {
+                                        foreach (var item in Model.Tags)
+                                        {
+                                            @Html.ActionLink(item.TagDescription, "QuestionList", new { TagId = item.TagId });
+                                            <text>&nbsp;</text>
+                                        }
+                                    }
+                               </td>
+                            </tr>
+                        </table>
+                        <div style="font-size:medium;font-weight:bold;">
+                            Answers : @Model.Answers.Count
+                        </div>
+                        <div id="Answers" class="tablecontainer">
+                            <table>
+
+                                @foreach (var item in Model.Answers)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <table>
+                                                    <tr>
+                                                        <td rowspan="2" id="" style="font-size:xx-large; vertical-align:middle; width:5%; text-align: center;">
+                                                            @*<input type="button" id="add" value="add" onclick="UpdateVote(@item.AnswerId);" />*@
+
+                                                            @{
+                                                                int isLoggedIn = 0;
+                                                                int rp = 0;
+                                                            }
+                                                            @if (((User)Session["User"]) != null)
+                                                            {
+                                                                rp = ((User)Session["User"]).ReputaionPoints;
+                                                                isLoggedIn = 1;
+
+                                                            }
+                                                            <a href="#" onclick="UpdateVote(@item.AnswerId, 'up',@rp, @isLoggedIn);"><img style="align-content:center;" src="@Url.Content("~/images/plusimg.png")" width="20" /></a><br />
+                                                            <span id="@item.AnswerId" class="TitleEstTimeClass">
+                                                                @Html.DisplayFor(model => item.UpDownVote)
+                                                            </span><br />
+                                                            <a href="#" onclick="UpdateVote(@item.AnswerId, 'down',@rp, @isLoggedIn);"><img style="align-content:center;" src="@Url.Content("~/images/minusimg.png")" width="20" /></a>
 
 
-                                            </td>
-                                            <td colspan="5" style="font-size:medium; background-color:beige; width:95%;"> @Html.DisplayFor(modelItem => item.Text)</td>
+                                                        </td>
+                                                        <td colspan="5" style="font-size:medium; background-color:lightgray; width:95%;padding-left:20px;padding-right:20px;"> @Html.DisplayFor(modelItem => item.Text)</td>
 
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight:bold; font-style:oblique; text-align:left; width:5%;">Answerby : </td>
-                                            <td style="text-align:left ; width:20%;">
-                                                @*@Html.TextBox("disp", (string)@ViewBag., new { @readonly = true })*@
-                                                @Html.DisplayFor(modelItem => item.User.Name)
-                                                @Html.Partial("PartialImage", new StackOverFlow.Models.ProfileImage { Width = "20px", Height = "20px", UserId = item.User.UserId, ImageName = item.User.ImageName })
-                                                
+                                                    </tr>
+                                                    <tr>
 
-                                            </td>
-
-                                            <td style="font-weight:bold; font-style:oblique; text-align:left ; width:10%;">Answered On : </td>
-                                            <td style="text-align:left;  width:15%;">@Html.DisplayFor(modelItem => item.AnsweredOn) &nbsp;</td>
-                                            <td width="55%"></td>
-
-                                        </tr>
-                                    </table>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-                    }
-                </table>
-            </div>
-
-            <div class="tablecontainer">
-                <h3>Submit Your Answer</h3>
-
-                <table>
-                    <tr>
-                        <td></td>
-
-                        <td width="80%">@Html.TextAreaFor(model => model.NewAnswer, 10, 5000, null)</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td align="right">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Submit" class="btn btn-default" />
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+                                                        <td style="font-weight:bold; font-style:oblique; text-align:left; width:5%;">
+                                                            Answerby :
+                                                        </td>
+                                                        <td style="text-align:left ; width:20%;">
+                                                            @*@Html.TextBox("disp", (string)@ViewBag., new { @readonly = true })*@
+                                                            @Html.DisplayFor(modelItem => item.User.Name)
+                                                            @Html.Partial("PartialImage", new StackOverFlow.Models.ProfileImage { Width = "20px", Height = "20px", UserId = item.User.UserId, ImageName = item.User.ImageName })
 
 
-            </div>
+                                                        </td>
+
+                                                        <td style="font-weight:bold; font-style:oblique; text-align:left ;width:10%; ">Answered On : </td>
+                                                        <td style="text-align:left;  width:15%;">@Html.DisplayFor(modelItem => item.AnsweredOn) &nbsp;</td>
+                                                        <td width="45%">
+                                                            @if (((User)Session["User"]) != null && (((User)Session["User"]).Role == "Admin" || ((User)Session["User"]).UserId == item.AnswerByUser))
+                                                            {
+                                                                <a href="@Url.Action("AnswerInfoEdit", "AnswerInfo", new { Id = item.AnswerId })" title="Edit Answer" class="links">
+                                                                    <img src="@Url.Content("~/images/edit.png")" alt="Image" style="width:20px; height:20px;" />
+                                                                </a>
+                                                            }
+                                                            &nbsp;
+                                                        </td>
+                                                        @*<td width="55%"></td>*@
+
+                                                    </tr>
+
+                                                    @foreach (var item1 in item.AnswersComments)
+                                                    {
+                                                        <tr>
+                                                            <td style="width:5%;"></td>
+                                                            <td colspan="5"> @Html.DisplayFor(modelItem => item1.Comment)<hr /></td>
 
 
-        </div>
+                                                        </tr>
+                                                    }
+                                                    <tr>
+
+                                                        <td style="width:5%;"></td>
+                                                        <td colspan="5" style="padding-bottom:10px;">
+
+                                                            @if (Session["User"] == null)
+                                                            {
+                                                                <a href="#commentdiv_@item.AnswerId" onclick="DisplayCommentbox(@item.AnswerId, 'comment', false, '0',@rp);">add a comment</a>
+                                                            }
+                                                            else
+                                                            {
+                                                                int a = ((User)Session["User"]).UserId;
+                                                                <a href="#commentdiv_@item.AnswerId" onclick="DisplayCommentbox(@item.AnswerId, 'comment', true,  @a,@rp);">add a comment</a>
+                                                            }
+
+                                                            <div id="commentdiv_@item.AnswerId" style="display:none;">
+                                                                @Html.TextAreaFor(model => model.NewComment, 3, 200, new { @id = "comment_" + @item.AnswerId, @class = "md-textarea form-control rounded-0" })
+                                                                <input type="submit" value="Add comment" class="btn-primary" onclick="SaveComment(@item.AnswerId);" />
+                                                            </div>
+                                                        </td>
+
+                                                    </tr>
+
+                                                </table>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+
+                        <div class="tablecontainer">
+                            <h3>Post Your Answer</h3>
+
+                            <table>
+                                <tr>
+
+                                    <td align="left" width="80%">@Html.TextAreaFor(model => model.NewAnswer, 10, 5000, null)</td>
+                                </tr>
+                                <tr>
+
+                                    <td align="left">
+                                        <div class=" col-md-10">
+                                            <input type="submit" value="Submit" class="btn-primary" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+
+                        </div>
+
+
+                    </div>
+                </td>
+            </tr>
+        </table>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         @section Scripts{
             <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
             <script>
+                @*$(document).ready(function () {
+                    var url = window.location.href;
+                    var UserId = @ViewBag.Userid;
+                    alert(url);
+                    if (ReturnUrl.Contains(",AnswerId")) {
+                        var starturl = ReturnUrl.Split(',')[0];
+                        var tokens = ReturnUrl.Split(',');
+                        var a = tokens[tokens.Length - 1];
+                        alert(a);
+                        If(UserId != null && UserId != 0)
+                        {
+                            DisplayCommentbox(a,'true',UserId);
+                        }
 
-                function UpdateVote(AnswerId, voteType) {
+                    }
+
+
+
+                    If()
+                });*@
+                function UpdateVote(AnswerId, voteType,Reputationpoints, IsloggedIn) {
                     //alert("in method");
-
+                    alert(Reputationpoints);
                     //Update if valid
-                    if (true) {
+                    if (Reputationpoints > 50 && IsloggedIn == true) {
                         var data = {
                             AnswerId: AnswerId,
                             Type: voteType
@@ -161,6 +251,7 @@
                                     }
                                 }
                                 else {
+                                    alert("You can't vote your own answer!")
                                     //alert('Failed');
                                 }
 
@@ -172,6 +263,72 @@
                             }
                         });
                     }
+                    else {
+                        alert("For Voting you must have Reputaion more than 50!");
+                        //redirect or alert for reputation point
+                    }
+                };
+                function DisplayCommentbox(AnswerId, type, isLoggedIn, userId,Reputationpoints) {
+                    if (isLoggedIn == true) {
+                        if (Reputationpoints > 50 && isLoggedIn == true) {
+                            var commentdiv = document.getElementById("commentdiv_" + AnswerId);
+                            // alert(commentdiv);
+                            //alert(id);
+                            commentdiv.style.display = 'block';
+                        }
+                        else {
+                            alert("For Commenting you must have Reputaion more than 50!");
+                        }
+                    }
+                    
+                    else {
+                        window.location = '/SignIn/SignIn?ReturnUrl=' + window.location.href + ',AnswerId:' + AnswerId;
+                    }
+                };
+                function SaveComment(AnswerId) {
+
+                        var isAllValid = true;
+                        if (AnswerId == 0 || AnswerId == null) {
+                            isAllValid = false;
+                        }
+                        if (isAllValid || true) {
+                            var commentid = document.getElementById("commentdiv_" + AnswerId);
+                            var data = {
+                                AnswerId: AnswerId,
+                                NewComment: commentid.textContent
+                            }
+                            //alert(commentid.textContent);
+
+                        }
+                        $.ajax({
+                            url: '/AnswerInfo/SaveComment',
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            dataType: "JSON",
+                            contentType: "application/json",
+                            success: function (d) {
+                                //check is successfully save to database
+                                if (d.status == true) {
+                                    //will send status from server side
+                                    alert('Successfully done.');
+                                    var commentdiv = document.getElementById("commentdiv_" + AnswerId);
+                                    commentdiv.style.display = 'none';
+                                    commentid.textContent = "";
+
+                                }
+                                else {
+                                    alert('Failed');
+                                }
+                                $('#submit').val('Save');
+                            },
+                            error: function () {
+                                //alert(d);
+                                alert('Error. Please try again.');
+                                $('#submit').val('Save');
+                            }
+                        });
+                    
+
                 };
             </script>
         }

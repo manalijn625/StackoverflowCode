@@ -1,49 +1,60 @@
 ﻿@model StackOverFlow.Models.QuestionInfo
 @{
     ViewBag.Title = "AskQuestion";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
-<h2>AskQuestion</h2>
+
 @using (Html.BeginForm())
 {
-    @*@Html.AntiForgeryToken()*@
-    <div class="container" style="max-width:100%">
-        <div class="master">
-            @*<h4>Question</h4>*@
+    <div>
+        @*@Html.AntiForgeryToken()*@
+        <table align="left" class="table-striped table-bordered table-condensed">
+            <tr>
+                <td>
+                    <div style="max-width:100%">
+                        <div class="master">
+                            <h2 style="text-align:left;padding-left:50px; padding-right:50px;">AskQuestion</h2><hr />
 
-            <div class="form-horizontal">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Title, "Title", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.Title, 2, 80, new { htmlAttributes = new { @class = "form-control" } })
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.question.Title, "Title", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.question.Title, 2, 80, new {@class = "md-textarea form-control rounded-0"})
 
-                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Description, "Description", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.Description, 6, 500, new { htmlAttributes = new { @class = "form-control" } })
-                     
-                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Tags, "Tags", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.CommaSeperatedTags, 1, 80, new { htmlAttributes = new { @class = "form-control" } })
-                        @*@Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "text-danger" })*@
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Submit" class="btn btn-default" />
-                    </div>
-                </div>
+                                        @Html.ValidationMessageFor(model => model.question.Title, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.question.Description, "Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.question.Description, 6, 500, new { @class = "md-textarea form-control rounded-0" })
 
-            </div>
-        </div>
+                                        @Html.ValidationMessageFor(model => model.question.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Tags, "Tags", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+
+                                        @Html.TextAreaFor(model => model.CommaSeperatedTags, 1, 80, new { @class = "md-textarea form-control rounded-0" })
+                                        @*@Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "text-danger" })*@
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Submit" class="btn-primary" /><br />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        </table>
     </div>
-
 }
+

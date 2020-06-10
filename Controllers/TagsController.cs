@@ -10,12 +10,19 @@ namespace StackOverFlow.Controllers
     {
         TagsRepository tagsRepository = new TagsRepository(new StackOverFlowDbContext());
         // GET: Tags
-        public ActionResult List()
+        public ActionResult List(string tagfilter)
         {
             var Tags = tagsRepository.GetAll();
+            if (tagfilter != null)
+            {
+                 Tags = Tags.Where(e => e.TagDescription.ToLower().Contains(tagfilter)).ToList();
+            }
             return View(Tags);
         }
-
+        public ActionResult Reset()
+        {
+            return RedirectToAction("List", new { userfilter = "" });
+        }
         // GET: Tags/Details/5
         public ActionResult Details(int id)
         {

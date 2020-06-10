@@ -5,52 +5,78 @@
 }
 
 <!DOCTYPE html>
-
+<style>
+    body {
+        background-image: url('../images/background-2.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>SignIn</title>
+    @Styles.Render("~/Content/css")
+    @*@Scripts.Render("~/bundles/modernizr")*@
 </head>
-<body>
+<body style="padding-top:0px;background-color:lightgray; ">
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
-    
-    
-    @using (Html.BeginForm()) 
+
+
+    @using (Html.BeginForm())
     {
-        @Html.AntiForgeryToken()
-        
-        <div class="form-horizontal">
-            <h4>SignIn</h4>
-            <hr />
-              
-            <div class="form-group">
-                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new {value = "manali.jain@radixweb.com",text = "manali.jain@radixweb.com", @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.PasswordFor(model => model.Password, new { htmlAttributes = new {value = "1234567",text = "1234567", @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-           
-    
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="SignIn" class="btn btn-default" />
-                    @Html.ActionLink("SignUp", "SignUp", "SignUp")
-                </div>
-            </div>
-        </div>
+        @*@Html.AntiForgeryToken()*@
+        <table width="80%">
+            <tr rowspan="4"><td></td></tr>
+            <tr rowspan="4">
+                <td align="right" style="padding-top:100px;padding-right:7px;"> <img src="~/images/background-signin.jpg" /></td>
+                <td align="right" style="padding-top:87px;">
+                    <div class="form-horizontal" style="background-color:lightgray;padding-right:50px;padding-left:30px;">
+                        <h3 style="text-align:left;padding-left:50px; padding-top:100px;padding-right:50px;">Sign In</h3>
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group" style="padding-bottom:150px;">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="SignIn" class="btn-primary" />
+                                @Html.ActionLink("SignUp", "SignUp", "SignUp")
+                            </div>
+                        </div>
+
+                    </div>
+
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+        </table>
+
+
     }
-    
-    
+
+
 </body>
 </html>

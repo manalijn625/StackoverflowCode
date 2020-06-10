@@ -8,7 +8,6 @@ namespace StackOverFlow
 
     public partial class TagQuestion
     {
-   
         public int Id { get; set; }
 
         public int TagId { get; set; }

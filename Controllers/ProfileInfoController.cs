@@ -44,9 +44,9 @@ namespace StackOverFlow.Controllers
                 MobileNumber = user.MobileNumber,
                 ImageName = user.ImageName,
                 QuestionInfo= info,
-                TagList= tagsrepository.GetTagsByUserId(UserId.Value)
-
-        };
+                TagList= tagsrepository.GetTagsByUserId(UserId.Value),
+                 ReputaionPoints = user.ReputaionPoints
+            };
             
             //List<QuestionInfo> info = questionInfoRepository.GetQuestionList(0, UserId, "");
             //info = info.OrderByDescending(x => x.question.ViewCount).Take(5).ToList();

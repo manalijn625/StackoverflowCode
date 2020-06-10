@@ -11,10 +11,20 @@ namespace StackOverFlow.Controllers
     {
         UsersRepository usersRepository = new UsersRepository(new StackOverFlowDbContext());
         // GET: Users
-        public ActionResult List()
+        public ActionResult List(string userfilter)
         {
             var Users = usersRepository.GetAll();
+            if (userfilter != null)
+            {
+                Users = Users.Where(e => e.Name.ToLower().Contains(userfilter)).ToList();
+
+            }
             return View(Users);
+        }
+        
+             public ActionResult Reset()
+        {
+            return RedirectToAction("List", new { userfilter = "" });
         }
 
         // GET: Users/Details/5

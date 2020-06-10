@@ -23,22 +23,34 @@ namespace StackOverFlow.Controllers
         [HttpPost]
         public ActionResult SignIn(User login, string ReturnUrl)
         {
+            if (ReturnUrl!=null &&  ReturnUrl.Contains(",AnswerId"))
+            {
+                string starturl= ReturnUrl.Split(',')[0];
+                string[] tokens = ReturnUrl.Split(',');
+                string a = tokens[tokens.Length - 1]; 
+                tokens =a.Split(':');
+                string aid = tokens[tokens.Length - 1];
+                ReturnUrl = starturl + "#" + aid;
+            }
             //if (login.Password == "3")
             //{
-            //    login.Email = "manali.jain@radixweb.com";
+            //    login.Email = "manali.jain@radixweb.com"; 
             //    login.Password = "3";
             //}
-            //else                
+            //else
             //{
-            //    login.Email = "sneha@test.com";
-            //    login.Password = "1";
+            //    login.Email = "rita@test.com";
+            //    login.Password = "2";
             //}
             var result = se.Users.FirstOrDefault(x => x.Email.ToLower() == login.Email.ToLower() && x.Password == login.Password);
             if (result != null)
             {
                 Session.Add("User", result);
                 FormsAuthentication.SetAuthCookie(login.Name, false);
-
+                if(ReturnUrl == null)
+                {
+                    return Redirect("/Home/Index");
+                }
                 return Redirect(ReturnUrl);
             }
             else

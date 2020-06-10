@@ -3,34 +3,50 @@
 @{
     ViewBag.Title = "Tags";
 }
+    <style>
+        tr:nth-child(even) {
+            background-color: none;
+        }
 
-<h2>Tags</h2>
+        tr:nth-child(odd) {
+            background-color: lightgray;
+        }
+    </style>
+@using (Html.BeginForm("List", "Tags"))
+{
+    <h2>Tags</h2>
+    <div>
+        <input id="tagfilter" name="tagfilter" class="form-control" autocomplete="off" type="text" placeholder="Filter by user">
+        <input type="submit" name="submit" value="Search" /><input type="submit" name="submit" value="Reset" />
+    </div>
 
 
-<table class="table">
-    @*<tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TagDescription)
-        </th>
-        <th></th>
-    </tr>*@
+    <table class="table">
+        @*<tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TagDescription)
+                </th>
+                <th></th>
+            </tr>*@
 
-@foreach (var item in Model) {
-    <tr> 
-        <td width="20%">
-            @Html.DisplayFor(modelItem => item.TagDescription)
-           
-        </td>
-        <td align="left">
-            @*@Html.DisplayFor(modelItem => item.TagDescription)*@
-            @Html.ActionLink("Browse Related Questions" , "QuestionList","QuestionInfo", new { TagId = item.TagId }, new {@class="" })
-        </td>
-        <td>
-            @*@Html.ActionLink("Edit", "Edit", new { id=item.TagId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TagId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TagId })*@
-        </td>
-    </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td width="20%">
+                    @Html.DisplayFor(modelItem => item.TagDescription)
+
+                </td>
+                <td align="left">
+                    @*@Html.DisplayFor(modelItem => item.TagDescription)*@
+                    @Html.ActionLink("Browse Related Questions", "QuestionList", "QuestionInfo", new { TagId = item.TagId }, new { @class = "" })
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id=item.TagId }) |
+                        @Html.ActionLink("Details", "Details", new { id=item.TagId }) |
+                        @Html.ActionLink("Delete", "Delete", new { id=item.TagId })*@
+                </td>
+            </tr>
+        }
+
+    </table>
 }
-
-</table>

@@ -18,6 +18,62 @@ namespace StackOverFlow.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult QuestionInfoEdit(int id)
+        {
+
+            //ViewBag.UserList = questionInfoRepository.context.Users.ToList();
+            //// id = 10001;
+            //TempData["QuestionId"] = id;
+            QuestionInfo info = questionInfoRepository.GetQuestionDetail(id);
+
+            //info.Answers = info.Answers == null ? new List<Answer>() : info.Answers;
+
+            //Question q = questionInfoRepository.GetById(id);
+            //q.ViewCount = q.ViewCount + 1;
+            //questionInfoRepository.Update(q);
+
+            //  TempData["QuestionInfo"] = info;
+            string tagvalue = "";
+            if(info.Tags!=null)
+                {
+                foreach (var item in info.Tags)
+                {
+                    tagvalue += item.TagDescription + ",";
+
+                }
+            }
+            info.CommaSeperatedTags = tagvalue;
+            return View(info);
+        }
+        [HttpPost]
+        public ActionResult QuestionInfoEdit(QuestionInfo quesinfo)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    
+                    quesinfo.CurrentUser = (User)Session["User"];
+                    questionInfoRepository.Update(quesinfo);
+                    return RedirectToAction("QuestionDetail", new { id = quesinfo.question.QuestionId });
+                }
+                else
+                {
+                    return  View(quesinfo);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return View();
+            }
+        }
+
+        
+
 
         [HttpGet]
         public ActionResult AskQuestion()
@@ -117,18 +173,21 @@ namespace StackOverFlow.Controllers
 
         public JsonResult UpdateVote(VotePayload data)
         {
-            questionInfoRepository.UpdateVote(data.AnswerId, data.Type);
+            int CurrentUser = ((User)Session["User"]).UserId;
+            bool ustatus = questionInfoRepository.UpdateVote(data.AnswerId, data.Type, CurrentUser);
 
-            return new JsonResult { Data = new { status = true } };
+            return new JsonResult { Data = new { status = ustatus } };
         }
 
 
     }
 
     public class VotePayload
-    { 
+    {
+       
         public int AnswerId { get; set; }
         public string Type { get; set; }
+
 
     }
 

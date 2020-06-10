@@ -4,6 +4,8 @@ namespace StackOverFlow
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+    using System.Data.Entity.Core.Objects;
+    using System.Data.Entity.Infrastructure;
 
     public partial class StackOverFlowDbContext : DbContext
     {
@@ -13,13 +15,27 @@ namespace StackOverFlow
         }
 
         public virtual DbSet<Answer> Answers { get; set; }
+        public virtual DbSet<AnswersComment> AnswersComments { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<TagMaster> TagMasters { get; set; }
         public virtual DbSet<TagQuestion> TagQuestions { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual ObjectResult<User> getUser(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<User>("getUser", userIDParameter);
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Answer>()
+                .HasMany(e => e.AnswersComments)
+                .WithRequired(e => e.Answer)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Question>()
                 .Property(e => e.Title)
                 .IsUnicode(false);
@@ -68,12 +84,12 @@ namespace StackOverFlow
                 .IsUnicode(false);
 
             modelBuilder.Entity<User>()
-               .Property(e => e.ImageName)
-               .IsUnicode(false);
+                .Property(e => e.ImageName)
+                .IsUnicode(false);
 
             modelBuilder.Entity<User>()
-               .Property(e => e.Role)
-               .IsUnicode(false);
+                .Property(e => e.Role)
+                .IsUnicode(false);
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Answers)

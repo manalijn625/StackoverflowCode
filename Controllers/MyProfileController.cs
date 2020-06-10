@@ -66,7 +66,8 @@ namespace StackOverFlow.Controllers
                     Gender = user.Gender,
                     MobileNumber = user.MobileNumber,
                     ImageName = user.ImageName,
-                    Role = user.Role
+                    Role = user.Role,
+                    ReputaionPoints=user.ReputaionPoints
 
                 };
                 return View(u);

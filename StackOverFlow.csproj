@@ -138,10 +138,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Answer.cs" />
+    <Compile Include="AnswersComment.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Controllers\AnswerInfoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyProfileController.cs" />
     <Compile Include="Controllers\ProfileInfoController.cs" />
@@ -154,11 +156,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\EmailInfo.cs" />
+    <Compile Include="Models\IRepository\IAnswer.cs" />
     <Compile Include="Models\IRepository\IQuestionInfo.cs" />
     <Compile Include="Models\IRepository\ITag.cs" />
     <Compile Include="Models\IRepository\IUsers.cs" />
     <Compile Include="Models\ProfileImage.cs" />
     <Compile Include="Models\QuestionInfo.cs" />
+    <Compile Include="Models\Repository\AnswerInfoRepository.cs" />
     <Compile Include="Models\Repository\QuestionInfoRepository.cs" />
     <Compile Include="Models\Repository\GenericModelRepository.cs" />
     <Compile Include="Models\Repository\TagsRepository.cs" />
@@ -181,7 +185,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\background-2.jpg" />
+    <Content Include="images\background-signin.jpg" />
     <Content Include="images\DefaultProfile.png" />
+    <Content Include="images\edit.png" />
     <Content Include="images\minusimg.png" />
     <Content Include="images\plusimg.png" />
     <Content Include="Scripts\bootstrap.js" />
@@ -197,6 +204,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Views\HtmlPage1.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -225,7 +233,10 @@
     <Content Include="Views\Shared\_LayoutPage.cshtml" />
     <Content Include="Views\Shared\PartialImage.cshtml" />
     <Content Include="Views\ProfileInfo\ProfileInfo.cshtml" />
-    <Content Include="Views\ProfileInfo\dummy.cshtml" />
+    <Content Include="Views\QuestionInfo\DummyEdit.cshtml" />
+    <Content Include="Views\QuestionInfo\QuestionInfoEdit.cshtml" />
+    <Content Include="Views\AnswerInfo\AnswerInfoEdit.cshtml" />
+    <Content Include="Views\QuestionInfo\test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

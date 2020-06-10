@@ -41,12 +41,13 @@ namespace StackOverFlow
 
         [StringLength(10)]
         public string Gender { get; set; }
-        
+
         [StringLength(100)]
         public string ImageName { get; set; }
 
         [StringLength(10)]
         public string Role { get; set; }
+        public int ReputaionPoints { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Answer> Answers { get; set; }
@@ -57,7 +58,7 @@ namespace StackOverFlow
 
     public class CustomUser
     {
-       
+
         public int UserId { get; set; }
 
         [Required]
@@ -82,13 +83,14 @@ namespace StackOverFlow
 
         [StringLength(10)]
         public string Gender { get; set; }
-        
+
         [StringLength(100)]
         [DisplayName("Upload File")]
         public string ImageName { get; set; }
 
         [StringLength(10)]
         public string Role { get; set; }
+        public int ReputaionPoints { get; set; }
 
         public int UserPoints { get; set; }
 

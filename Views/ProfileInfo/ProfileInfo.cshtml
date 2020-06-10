@@ -6,7 +6,7 @@
 <h2 class="glyphicon-sound-5-1">Profile </h2>
 @using (Html.BeginForm())
 {
-    <div class="jumbotron">
+    <div>
 
         <div>
             <table>
@@ -14,14 +14,14 @@
                     <td width="15%"> @Html.Partial("PartialImage", new StackOverFlow.Models.ProfileImage { Width = "200px", Height = "200px", UserId = Model.UserId, ImageName = Model.ImageName })</td>
                     <td width="51%" valign="top">
                         <h3>@Model.Name</h3>
-                        @if (((User)Session["User"]).Role == "Admin" || ((User)Session["User"]).UserId== Model.UserId)
+                        @if (((User)Session["User"]).Role == "Admin" || ((User)Session["User"]).UserId == Model.UserId)
                         {
-                            <div>@Html.ActionLink("Edit", "Edit", "MyProfile", new { UserId = Model.UserId}, null)</div>
-                         }
+                            <div>@Html.ActionLink("Edit", "Edit", "MyProfile", new { UserId = Model.UserId }, null)</div>
+                        }
+
+                        <br />Quantitative Analyst at Regent Markets Group(Binary.com)
+                        Apparently, this user prefers to keep an air of mystery about them.<hr />
                        
-                            <br />Quantitative Analyst at Regent Markets Group(Binary.com)
-                                Apparently, this user prefers to keep an air of mystery about them.
-                        
                     </td>
                     <td width="8%" valign="top" align="left" style="padding-left:100px;">
                         <svg aria-hidden="true" class="svg-icon iconLocation" width="18" height="18" viewBox="0 0 18 18"><path d="M2 6.38C2 9.91 8.1 17.7 8.1 17.7c.22.29.58.29.8 0 0 0 6.1-7.8 6.1-11.32A6.44 6.44 0 008.5 0 6.44 6.44 0 002 6.38zm9.25.12a2.75 2.75 0 11-5.5 0 2.75 2.75 0 015.5 0z"></path></svg><br />
@@ -38,12 +38,12 @@
                 <tr colspan="4">
                     <td width="15%"></td>
                     <td cwidth="51%">
-                        <h3 class="d-block pb8 bb bc-black-3 fc-dark fw-bold  bw0">Top Posts <span class="fc-light fw-normal"></span></h3>
+                        <h3 class="d-block pb8 bb bc-black-3 fc-dark fw-bold  bw0">Top Posts <span class="fc-light fw-normal"></span></h3> <hr />
 
                         @foreach (var item1 in @Model.QuestionInfo)
                         {
                             <div style="padding:10px;">
-                                <div class="column" align="center" style="background-color:bisque;float:left;width:5%;">@item1.ViewCount</div>
+                                <div class="column" align="center" style="background-color:lightgray;float:left;width:5%;">@item1.ViewCount</div>
 
                                 <div class="column" style="float:left;width:95%;">
                                     @Html.ActionLink(item1.Title, "QuestionDetail", "QuestionInfo", new { id = item1.QuestionId }, new { @class = "" })
@@ -57,16 +57,16 @@
                 </tr>
                 <tr colspan="4">
                     <td width="15%"></td>
-                    <td cwidth="51%" >
-                        <h3 class="d-block pb8 bb bc-black-3 fc-dark fw-bold  bw0">Top Tags <span class="fc-light fw-normal"></span></h3>
+                    <td cwidth="51%">
+                        <h3 class="d-block pb8 bb bc-black-3 fc-dark fw-bold  bw0">Top Tags <span class="fc-light fw-normal"></span></h3> <hr />
 
                         @foreach (var tagl in @Model.TagList)
                         {
                             <div style="padding:10px;">
-                                <div class="column" align="center" style="background-color:bisque;float:left;width:5%;">@tagl.Appearance</div>
-                              
+                                <div class="column" align="center" style="background-color:lightgray;float:left;width:5%;">@tagl.Appearance</div>
+
                                 <div class="column" style="float:left;width:95%;">
-                                    @Html.ActionLink(tagl.TagDescription, "QuestionList", "QuestionInfo", new { TagId = tagl.TagId}, null);
+                                    @Html.ActionLink(tagl.TagDescription, "QuestionList", "QuestionInfo", new { TagId = tagl.TagId }, null);
                                 </div>
                             </div>
                         }

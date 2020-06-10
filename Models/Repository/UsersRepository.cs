@@ -27,6 +27,7 @@ namespace StackOverFlow.Models.Repository
                     Gender = user.Gender,
                     MobileNumber = user.MobileNumber,
                     ImageName = user.ImageName,
+                    ReputaionPoints = user.ReputaionPoints
                 };
 
                 int points = 0;
